@@ -1,0 +1,49 @@
+#include <iostream>
+#include <chrono>
+#include <vector>
+
+using namespace std;
+using namespace std::chrono;
+
+
+long long fibonacciRekursif(int n) {
+    if (n <= 1) return n;
+    return fibonacciRekursif(n - 1) + fibonacciRekursif(n - 2);
+}
+
+
+long long fibonacciDP(int n) {
+    vector<long long> fib(n + 1);
+    fib[0] = 0;
+    fib[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        fib[i] = fib[i - 1] + fib[i - 2];
+    }
+    return fib[n];
+}
+
+void measureExecutionTime(int n) {
+    high_resolution_clock::time_point time1, time2;
+
+    time1 = high_resolution_clock::now();
+    cout << "Hasil rekursif untuk n = " << n << " adalah " << fibonacciRekursif(n) << endl;
+    time2 = high_resolution_clock::now();
+    auto durationRecursive = duration_cast<microseconds>(time2 - time1).count();
+    cout << "Kompleksitas Waktu : " << durationRecursive << " mikrodetik" << endl;
+
+    time1 = high_resolution_clock::now();
+    cout << "Hasil dynamic programming untuk n = " << n << " adalah " << fibonacciDP(n) << endl;
+    time2 = high_resolution_clock::now();
+    auto durationDynamic = duration_cast<microseconds>(time2 - time1).count();
+    cout << "Kompleksitas Waktu : " << durationDynamic << " mikrodetik" << endl<<endl;
+
+}
+
+int main() {
+
+    int Nilai[] = {10, 25, 30, 40, 50};
+    for (int n : Nilai) {
+        measureExecutionTime(n);
+    }
+    return 0;
+}
